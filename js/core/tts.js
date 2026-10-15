@@ -1,26 +1,72 @@
 // js/core/tts.js
-/** Text-To-Speech: la app habla. Compatible con todos los navegadores. */
+/**
+ * Text-To-Speech: la app habla.
+ * Compatible con todos los navegadores modernos, incluido iOS Safari.
+ */
+
 let voices = [];
 let preferredURI = '';
+let voicesReady = false;
+const listeners = new Set();
 
 export function initTTS(){
-  if(!('speechSynthesis' in window)) return [];
+  if(!('speechSynthesis' in window)) return;
   loadVoices();
   speechSynthesis.onvoiceschanged = loadVoices;
-  return voices;
+
+  // Algunos navegadores (Safari iOS) recién cargan las voces
+  // después del primer gesto del usuario.
+  const kick = () => {
+    loadVoices();
+    if(voicesReady){
+      window.removeEventListener('pointerdown', kick);
+      window.removeEventListener('touchstart', kick);
+      window.removeEventListener('keydown', kick);
+    }
+  };
+  window.addEventListener('pointerdown', kick, { once:false });
+  window.addEventListener('touchstart', kick, { once:false, passive:true });
+  window.addEventListener('keydown', kick);
+
+  // Reintento por si ningún evento se dispara
+  let tries = 0;
+  const timer = setInterval(() => {
+    loadVoices();
+    if(voicesReady || ++tries > 20) clearInterval(timer);
+  }, 300);
 }
 
 function loadVoices(){
-  voices = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang));
-  if(!preferredURI && voices.length){
+  if(!('speechSynthesis' in window)) return;
+  const list = speechSynthesis.getVoices() || [];
+  if(!list.length) return;
+
+  const en = list.filter(v => /^en/i.test(v.lang));
+  voices = en.length ? en : list; // si no hay en, mostramos todas
+
+  // Elegir voz preferida la primera vez
+  if(!preferredURI){
     const pref = voices.find(v => v.lang === 'en-US' && v.localService)
               || voices.find(v => v.lang === 'en-US')
+              || voices.find(v => /^en-GB/i.test(v.lang))
               || voices[0];
-    preferredURI = pref.voiceURI;
+    if(pref) preferredURI = pref.voiceURI;
+  }
+
+  if(!voicesReady){
+    voicesReady = true;
+    listeners.forEach(cb => { try{ cb(voices); }catch(e){} });
   }
 }
 
+export function onVoicesReady(cb){
+  if(voicesReady) { try{ cb(voices); }catch(e){} return () => {}; }
+  listeners.add(cb);
+  return () => listeners.delete(cb);
+}
+
 export function getVoices(){ return voices; }
+export function isVoicesReady(){ return voicesReady; }
 export function getPreferredURI(){ return preferredURI; }
 export function setPreferredURI(uri){ preferredURI = uri; }
 

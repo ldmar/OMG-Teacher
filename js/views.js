@@ -5,7 +5,11 @@ import * as Session from './modules/session.js';
 import * as Progress from './modules/progress.js';
 import { saveSessionTest } from './modules/progress.js';
 import { getGlobalStats, getWeakTopics, motivationMessage } from './modules/progress.js';
-import { speak, speakWords, stopTTS, getVoices, getPreferredURI, setPreferredURI } from './core/tts.js';
+import {
+  speak, speakWords, stopTTS,
+  getVoices, getPreferredURI, setPreferredURI,
+  isVoicesReady, onVoicesReady
+} from './core/tts.js';
 import { isSTTSupported, recognize } from './core/stt.js';
 import { scorePronunciation } from './modules/pronunciation.js';
 import { shareApp, shareViaWhatsApp, shareViaTelegram, shareViaEmail, copyLink, shareResult } from './core/share.js';
@@ -559,7 +563,6 @@ async function renderTests(root){
 
 /* ============== Ajustes ============== */
 async function renderSettings(root){
-  const voices = getVoices();
   root.innerHTML = `
     <section class="view on">
       <div class="bar">
@@ -569,25 +572,36 @@ async function renderSettings(root){
 
       <div class="card">
         <label class="field"><span>Voz en inglés</span>
-          <select id="selVoice">
-            ${voices.length ? voices.map(v => `<option value="${v.voiceURI}"${v.voiceURI===getPreferredURI()?' selected':''}>${esc(v.name)} (${v.lang})</option>`).join('') : '<option>— sin voces —</option>'}
-          </select>
+          <select id="selVoice"></select>
         </label>
         <label class="field" style="margin-bottom:0"><span>Velocidad</span>
-          <input type="range" id="rngRate" min="0.5" max="1.3" step="0.05" value="${state.rate||0.9}">
-          <div style="text-align:center;color:var(--dim);font-size:.8rem"><b id="rateVal">${(state.rate||0.9).toFixed(2)}</b>x</div>
+          <input type="range" id="rngRate" min="0.5" max="1.3" step="0.05" value="${state.rate || 0.9}">
+          <div style="text-align:center;color:var(--dim);font-size:.8rem">
+            <b id="rateVal">${(state.rate || 0.9).toFixed(2)}</b>x
+          </div>
         </label>
       </div>
 
       <div class="card">
         <b>Cuenta</b>
         <div class="user-pill" style="margin-top:10px">
-          <span class="av" style="background:${avatarColor(CURRENT_USER.name)}"></span>
-          ${esc(CURRENT_USER.name)}
+          <span class="av" style="background:${avatarColor(CURRENT_USER?.name || '?')}"></span>
+          ${esc(CURRENT_USER?.name || 'Invitado')}
         </div>
         <div class="row" style="margin-top:12px">
           <button class="ghost" id="btnSwitch" style="flex:1">Cambiar usuario</button>
           <button class="ghost bad" id="btnReset" style="flex:1">Borrar progreso</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <b>💾 Backup de datos</b>
+        <p style="color:var(--dim);font-size:.82rem;line-height:1.5;margin:6px 0 12px">
+          Exportá todo tu progreso a un archivo JSON para guardarlo o pasarlo a otro dispositivo.
+        </p>
+        <div class="row">
+          <button class="ghost" id="btnExport" style="flex:1">📤 Exportar</button>
+          <button class="ghost" id="btnImport" style="flex:1">📥 Importar</button>
         </div>
       </div>
 
@@ -604,23 +618,98 @@ async function renderSettings(root){
       <p class="foot">OMG-Teacher · by OhMyGoch</p>
     </section>`;
 
+  /* ---------- Pintar voces (soporta carga asíncrona) ---------- */
+  function paintVoices(){
+    const sel = $('#selVoice');
+    if(!sel) return;
+    const list = getVoices();
+    if(!list.length){
+      sel.innerHTML = '<option value="">Cargando voces…</option>';
+      return;
+    }
+    const cur = getPreferredURI();
+    sel.innerHTML = list.map(v => {
+      const selected = v.voiceURI === cur ? ' selected' : '';
+      const tag = v.localService ? '' : ' ☁';
+      return `<option value="${esc(v.voiceURI)}"${selected}>${esc(v.name)} (${esc(v.lang)})${tag}</option>`;
+    }).join('');
+    if(!getPreferredURI() && list[0]) setPreferredURI(list[0].voiceURI);
+  }
+
+  paintVoices();
+  if(!isVoicesReady()){
+    onVoicesReady(() => paintVoices());
+  }
+
+  /* ---------- Navegación ---------- */
   $('#btnBack').onclick = () => renderApp('home');
-  $('#selVoice').onchange = e => { setPreferredURI(e.target.value); state.voice = e.target.value; speak('This is my voice.', { reps:1 }); };
-  $('#rngRate').oninput = e => { state.rate = +e.target.value; $('#rateVal').textContent = state.rate.toFixed(2); };
-  $('#rngRate').onchange = () => speak('How fast can you go?', { reps:1 });
+
+  /* ---------- Voz y velocidad ---------- */
+  $('#selVoice').onchange = e => {
+    setPreferredURI(e.target.value);
+    state.voice = e.target.value;
+    speak('This is my voice.', { reps: 1, rate: state.rate || 0.9 });
+  };
+
+  $('#rngRate').oninput = e => {
+    state.rate = +e.target.value;
+    const el = $('#rateVal');
+    if(el) el.textContent = state.rate.toFixed(2);
+  };
+
+  $('#rngRate').onchange = () => {
+    speak('How fast can you go?', { reps: 1, rate: state.rate || 0.9 });
+  };
+
+  /* ---------- Cuenta ---------- */
   $('#btnSwitch').onclick = () => { renderApp('users'); };
+
   $('#btnReset').onclick = async () => {
     if(!confirm('¿Borrar todo tu progreso? No se puede deshacer.')) return;
-    const { clearCurrentUser } = await import('./core/db.js');
-    // simple: eliminamos usuario actual y volvemos a welcome
-    const { getUser } = await import('./core/db.js');
-    // En una app real borraríamos progress/tests del usuario.
-    // Acá reseteamos el puntero y mostramos welcome.
-    await clearCurrentUser();
-    toast('Sesión cerrada. Los datos quedan en la base.');
-    CURRENT_USER = null;
-    renderApp('welcome');
+    try{
+      const { clearCurrentUser } = await import('./core/db.js');
+      await clearCurrentUser();
+      CURRENT_USER = null;
+      toast('Sesión cerrada');
+      renderApp('welcome');
+    }catch(e){
+      toast('Error: ' + e.message);
+    }
   };
+
+  /* ---------- Backup ---------- */
+  $('#btnExport').onclick = async () => {
+    try{
+      await downloadBackup();
+      toast('Backup exportado ✔');
+    }catch(e){
+      toast('No se pudo exportar: ' + e.message);
+    }
+  };
+
+  $('#btnImport').onclick = async () => {
+    const file = await pickBackupFile();
+    if(!file) return;
+
+    const replace = confirm(
+      '¿Cómo querés importar?\n\n' +
+      'Aceptar = REEMPLAZAR todo el progreso actual.\n' +
+      'Cancelar = FUSIONAR con lo que ya tenés.'
+    );
+
+    try{
+      const r = await importFromFile(file, { mode: replace ? 'replace' : 'merge' });
+      toast(`Importado: ${r.users || 0} usuarios, ${r.progress || 0} progresos, ${r.tests || 0} tests`);
+      const { clearCurrentUser } = await import('./core/db.js');
+      await clearCurrentUser();
+      CURRENT_USER = null;
+      setTimeout(() => renderApp('welcome'), 700);
+    }catch(e){
+      toast('Error al importar: ' + e.message);
+    }
+  };
+
+  /* ---------- Compartir ---------- */
   $('#btnShareApp').onclick = () => shareApp();
 }
 

@@ -1,19 +1,21 @@
 // js/main.js
+// js/main.js
 import { initDB, getCurrentUser } from './core/db.js';
-import { generateIcons, setFavicons } from './core/icons.js';
+import { setFavicons, injectManifest } from './core/icons.js';
 import { registerSW } from './core/sw.js';
-import { renderApp, setUser } from './views.js';        
-import { toast } from './core/utils.js';                 
+import { renderApp, setUser } from './views.js';
+import { toast } from './core/utils.js';
+import { initTTS } from './core/tts.js';        // ← nuevo
 
 (async function bootstrap(){
   try{
+    initTTS();                                   // ← antes de todo
     setFavicons();
+    injectManifest();
     await initDB();
 
-    // Usuario actual (persistido)
-    let user = await getCurrentUser();
+    const user = await getCurrentUser();
     if(!user){
-      // primer arranque: pedimos nombre
       renderApp('welcome');
     } else {
       setUser(user);
