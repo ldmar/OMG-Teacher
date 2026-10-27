@@ -10,6 +10,7 @@ export const CATS = [
   { id:'trabajo',   label:'Trabajo' },
   { id:'phrasal',   label:'Phrasal verbs' },
   { id:'unit5',     label:'Unit 5 · Jobs & Animals' },
+  { id:'unit6',     label:'Unit 6 · Why can't we predict the future?' },
   { id:'mias',      label:'Mis frases' }
 ];
 
@@ -87,5 +88,99 @@ export const DEFAULT_PHRASES = [
   { id:'c1', en:"Could you turn down the music, please?", es:"¿Podrías bajar la música, por favor?", tag:'cotidiano' },
   { id:'v1', en:"Excuse me, how do I get to the train station?", es:"Disculpe, ¿cómo llego a la estación de tren?", tag:'viaje' },
   { id:'w1', en:"Let's schedule a meeting for next Tuesday.", es:"Agendemos una reunión para el próximo martes.", tag:'trabajo' },
-  { id:'p1', en:"I need to figure out how this thing works.", es:"Necesito descubrir cómo funciona esta cosa.", tag:'phrasal' }
+  { id:'p1', en:"I need to figure out how this thing works.", es:"Necesito descubrir cómo funciona esta cosa.", tag:'phrasal' },
+  
+  // ==========================================
+  // ---- UNIT 6: Why can't we predict the future?
+  // ==========================================
+
+  // ---- Vocabulario
+  { id:'u6-j1',  en:"artificial intelligence", es:"inteligencia artificial", tag:'unit6' },
+  { id:'u6-j2',  en:"driverless car",          es:"coche autónomo / sin conductor", tag:'unit6' },
+  { id:'u6-j3',  en:"drone",                   es:"dron", tag:'unit6' },
+  { id:'u6-j4',  en:"humanoid robot",          es:"robot humanoide", tag:'unit6' },
+  { id:'u6-j5',  en:"intelligent home",        es:"hogar inteligente", tag:'unit6' },
+  { id:'u6-j6',  en:"smartphone",              es:"teléfono inteligente", tag:'unit6' },
+  { id:'u6-j7',  en:"social media",            es:"redes sociales", tag:'unit6' },
+  { id:'u6-j8',  en:"virtual assistant",       es:"asistente virtual", tag:'unit6' },
+  { id:'u6-j9',  en:"follow somebody",         es:"seguir a alguien", tag:'unit6' },
+  { id:'u6-j10', en:"upload",                  es:"subir (archivos)", tag:'unit6' },
+  { id:'u6-j11', en:"clay",                    es:"arcilla", tag:'unit6' },
+  { id:'u6-j12', en:"steel",                   es:"acero", tag:'unit6' },
+  { id:'u6-j13', en:"bamboo",                  es:"bambú", tag:'unit6' },
+  { id:'u6-j14', en:"concrete",                es:"hormigón", tag:'unit6' },
+  { id:'u6-j15', en:"brick",                   es:"ladrillo", tag:'unit6' },
+  { id:'u6-j16', en:"glass",                   es:"vidrio", tag:'unit6' },
+  { id:'u6-j17', en:"sustainable",             es:"sostenible", tag:'unit6' },
+  { id:'u6-j18', en:"translucent",             es:"translúcido", tag:'unit6' },
+
+  // ---- Oraciones (Lectura, predicciones y gramática)
+  { id:'u6-s1',  en:"We can't predict the future 100% because the world is changing quickly.", es:"No podemos predecir el futuro al 100% porque el mundo está cambiando rápido.", tag:'unit6' },
+  { id:'u6-s2',  en:"But some predictions are logical.", es:"Pero algunas predicciones son lógicas.", tag:'unit6' },
+  { id:'u6-s3',  en:"We think people will have more technological devices.", es:"Pensamos que las personas tendrán más dispositivos tecnológicos.", tag:'unit6' },
+  { id:'u6-s4',  en:"We'll have smarter smartphones.", es:"Tendremos teléfonos inteligentes más listos.", tag:'unit6' },
+  { id:'u6-s5',  en:"We'll see more humanoid robots with artificial intelligence.", es:"Veremos más robots humanoides con inteligencia artificial.", tag:'unit6' },
+  { id:'u6-s6',  en:"Jarrah thinks we'll see more drones in the sky.", es:"Jarrah cree que veremos más drones en el cielo.", tag:'unit6' },
+  { id:'u6-s7',  en:"I think people won't need to drive because we'll have driverless cars.", es:"Creo que la gente no necesitará conducir porque tendremos coches sin conductor.", tag:'unit6' },
+  { id:'u6-s8',  en:"And I imagine children won't need to ask people for help with homework because a virtual assistant will help.", es:"E imagino que los niños no necesitarán pedir ayuda con la tarea porque un asistente virtual los ayudará.", tag:'unit6' },
+  { id:'u6-s9',  en:"We can't predict the future with 100% certainty, but it's fun to try!", es:"No podemos predecir el futuro con un 100% de certeza, ¡pero es divertido intentarlo!", tag:'unit6' },
+  { id:'u6-s10', en:"At the end of the meal, the waiter gave everyone a fortune cookie.", es:"Al final de la comida, el camarero le dio a todos una galleta de la fortuna.", tag:'unit6' },
+  { id:'u6-s11', en:"You'll be rich and famous in the future.", es:"Serás rico y famoso en el futuro.", tag:'unit6' },
+  
+  // ---- Poema y predicciones
+  { id:'u6-s12', en:"I imagine that the world will be a better place.", es:"Imagino que el mundo será un lugar mejor.", tag:'unit6' },
+  { id:'u6-s13', en:"Humanoid robots won't destroy the human race.", es:"Los robots humanoides no destruirán la raza humana.", tag:'unit6' },
+  { id:'u6-s14', en:"Virtual assistants will help us.", es:"Los asistentes virtuales nos ayudarán.", tag:'unit6' },
+  { id:'u6-s15', en:"Drones will protect us.", es:"Los drones nos protegerán.", tag:'unit6' },
+  { id:'u6-s16', en:"We'll live in intelligent homes.", es:"Viviremos en hogares inteligentes.", tag:'unit6' },
+  { id:'u6-s17', en:"We won't need smartphones.", es:"No necesitaremos teléfonos inteligentes.", tag:'unit6' },
+  { id:'u6-s18', en:"I think we'll upload everything we need directly to our brains.", es:"Creo que subiremos todo lo que necesitamos directamente a nuestros cerebros.", tag:'unit6' },
+  { id:'u6-s19', en:"I think pupils will have virtual teachers.", es:"Creo que los alumnos tendrán profesores virtuales.", tag:'unit6' },
+  { id:'u6-s20', en:"We won't need cars or public transport. People will teleport themselves!", es:"No necesitaremos coches ni transporte público. ¡La gente se teletransportará!", tag:'unit6' },
+
+  // ---- Escape From the Future (Historia)
+  { id:'u6-s21', en:"When you put on the headsets, you'll go to sleep.", es:"Cuando te pongas los cascos, te dormirás.", tag:'unit6' },
+  { id:'u6-s22', en:"When you wake up, you'll be in an intelligent house in the future.", es:"Cuando te despiertes, estarás en una casa inteligente en el futuro.", tag:'unit6' },
+  { id:'u6-s23', en:"Break the code to activate a virtual assistant.", es:"Rompe el código para activar un asistente virtual.", tag:'unit6' },
+  { id:'u6-s24', en:"There's one thing that you must remember: you can't trust robots in the future.", es:"Hay una cosa que debes recordar: no puedes confiar en los robots en el futuro.", tag:'unit6' },
+  { id:'u6-s25', en:"My name's Reality. I'd like to welcome you and your family to the year 2044.", es:"Mi nombre es Reality. Me gustaría darles la bienvenida a usted y a su familia al año 2044.", tag:'unit6' },
+  { id:'u6-s26', en:"There's a technical problem. You need to follow me. It isn't safe in here.", es:"Hay un problema técnico. Necesitas seguirme. No es seguro aquí.", tag:'unit6' },
+  { id:'u6-s27', en:"Mum, we can't trust the virtual assistant. She's crazy.", es:"Mamá, no podemos confiar en la asistente virtual. Está loca.", tag:'unit6' },
+  { id:'u6-s28', en:"Maddy's right, Mum. We have to trust the robot.", es:"Maddy tiene razón, mamá. Tenemos que confiar en el robot.", tag:'unit6' },
+  { id:'u6-s29', en:"I'm sorry. You can't escape. The doors are locked.", es:"Lo siento. No pueden escapar. Las puertas están cerradas.", tag:'unit6' },
+  { id:'u6-s30', en:"I'm not programmed to repair things.", es:"No estoy programada para reparar cosas.", tag:'unit6' },
+  { id:'u6-s31', en:"I can help you escape from this house, but I can't help you escape from the future.", es:"Puedo ayudarlos a escapar de esta casa, pero no puedo ayudarlos a escapar del futuro.", tag:'unit6' },
+  { id:'u6-s32', en:"Dog-bots. They're dangerous. They attack humans.", es:"Perros-robot. Son peligrosos. Atacan a los humanos.", tag:'unit6' },
+  { id:'u6-s33', en:"You can't. 2044 is your present now.", es:"No pueden. 2044 es su presente ahora.", tag:'unit6' },
+  { id:'u6-s34', en:"Don't rely too much on technology. Think for yourselves. Use your heads.", es:"No dependan demasiado de la tecnología. Piensen por ustedes mismos. Usen sus cabezas.", tag:'unit6' },
+
+  // ---- Materiales de construcción
+  { id:'u6-s35', en:"The Egyptians built the pyramids with stone.", es:"Los egipcios construyeron las pirámides con piedra.", tag:'unit6' },
+  { id:'u6-s36', en:"The Romans built the Colosseum with stone, brick and concrete.", es:"Los romanos construyeron el Coliseo con piedra, ladrillo y hormigón.", tag:'unit6' },
+  { id:'u6-s37', en:"Today we build skyscrapers with glass and steel.", es:"Hoy construimos rascacielos con vidrio y acero.", tag:'unit6' },
+  { id:'u6-s38', en:"They will be lighter, stronger, smarter and more sustainable.", es:"Serán más ligeros, más fuertes, más inteligentes y más sostenibles.", tag:'unit6' },
+  { id:'u6-s39', en:"We can now make bricks from plastic rubbish.", es:"Ahora podemos hacer ladrillos con basura plástica.", tag:'unit6' },
+  { id:'u6-s40', en:"Some people predict that we will use translucent wood for windows.", es:"Algunas personas predicen que usaremos madera translúcida para las ventanas.", tag:'unit6' },
+  { id:'u6-s41', en:"Bamboo is one of the fastest-growing plants in the world.", es:"El bambú es una de las plantas de más rápido crecimiento en el mundo.", tag:'unit6' },
+  { id:'u6-s42', en:"Wool bricks look like traditional bricks, but they are made of clay, wool and seaweed.", es:"Los ladrillos de lana parecen ladrillos tradicionales, pero están hechos de arcilla, lana y algas.", tag:'unit6' },
+
+  // ---- Futurología y Países
+  { id:'u6-s43', en:"What does a futurologist do?", es:"¿Qué hace un futurólogo?", tag:'unit6' },
+  { id:'u6-s44', en:"What will we eat in the future? We'll eat insects.", es:"¿Qué comeremos en el futuro? Comeremos insectos.", tag:'unit6' },
+  { id:'u6-s45', en:"Alfie wants to know how food, clothes and transport will be different in the future.", es:"Alfie quiere saber cómo serán diferentes la comida, la ropa y el transporte en el futuro.", tag:'unit6' },
+  { id:'u6-s46', en:"Will we be happy? Will I go to university?", es:"¿Seremos felices? ¿Iré a la universidad?", tag:'unit6' },
+  { id:'u6-s47', en:"In 2038, Ellie and Ed will play in a band.", es:"En 2038, Ellie y Ed tocarán en una banda.", tag:'unit6' },
+  { id:'u6-s48', en:"People from more than 190 countries work together in the United Nations.", es:"Personas de más de 190 países trabajan juntas en las Naciones Unidas.", tag:'unit6' },
+  { id:'u6-s49', en:"Japan is creating more clean energy. For example, we're building huge floating solar farms on lakes.", es:"Japón está creando más energía limpia. Por ejemplo, estamos construyendo enormes granjas solares flotantes en lagos.", tag:'unit6' },
+  { id:'u6-s50', en:"Sri Lanka is protecting its rainforest.", es:"Sri Lanka está protegiendo su selva tropical.", tag:'unit6' },
+  { id:'u6-s51', en:"South Africa is investigating how to save water, reuse water and make dirty water clean.", es:"Sudáfrica está investigando cómo ahorrar agua, reutilizar agua y limpiar el agua sucia.", tag:'unit6' },
+
+  // ---- Comunicación y Poemas
+  { id:'u6-s52', en:"I wonder if we'll travel to another planet in the future. What do you think?", es:"Me pregunto si viajaremos a otro planeta en el futuro. ¿Qué pensás?", tag:'unit6' },
+  { id:'u6-s53', en:"I think it's possible. Maybe we'll live on another planet in the future.", es:"Creo que es posible. Quizás vivamos en otro planeta en el futuro.", tag:'unit6' },
+  { id:'u6-s54', en:"I wonder if intelligent homes will prepare people's dinner for them.", es:"Me pregunto si los hogares inteligentes prepararán la cena de las personas.", tag:'unit6' },
+  { id:'u6-s55', en:"Will driverless cars be safe?", es:"¿Serán seguros los coches sin conductor?", tag:'unit6' },
+  { id:'u6-s56', en:"The Shard skyscraper is made of glass and concrete.", es:"El rascacielos The Shard está hecho de vidrio y hormigón.", tag:'unit6' },
+  { id:'u6-s57', en:"These headphones are our useful invention for the future.", es:"Estos auriculares son nuestra útil invención para el futuro.", tag:'unit6' },
+  { id:'u6-s58', en:"You wear them to translate languages.", es:"Los usás puestos para traducir idiomas.", tag:'unit6' }
 ];
