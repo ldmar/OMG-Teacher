@@ -1,4 +1,4 @@
-const CACHE = 'omg-teacher-v2';
+const CACHE = 'omg-teacher-v3';
 const ASSETS = [
   '.', 'index.html',
   'css/app.css',
