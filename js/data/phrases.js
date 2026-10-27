@@ -10,7 +10,7 @@ export const CATS = [
   { id:'trabajo',   label:'Trabajo' },
   { id:'phrasal',   label:'Phrasal verbs' },
   { id:'unit5',     label:'Unit 5 · Jobs & Animals' },
-  { id:'unit6',     label:'Unit 6 · Why can't we predict the future?' },
+  { id:'unit6',     label:'Unit 6 · Why cant we predict the future?' },
   { id:'mias',      label:'Mis frases' }
 ];
 
